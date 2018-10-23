@@ -1,0 +1,6 @@
+build/
+out/
+nbproject/
+build.xml
+*.iml
+*.idea
