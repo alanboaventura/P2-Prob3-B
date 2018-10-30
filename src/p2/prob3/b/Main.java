@@ -8,9 +8,6 @@ import java.util.Date;
 public class Main {
 
     public static void main(String args[]) {
-        Pac formaDeEntregaPac = new Pac();
-        Sedex formaDeEntregaSedex = new Sedex();
-
         Produto produto1 = new Produto("Produto 1", 500, 100);
         Produto produto2 = new Produto("Produto 2", 350, 195);
         Produto produto3 = new Produto("Produto 3", 420, 75);
@@ -21,28 +18,56 @@ public class Main {
         ItemPedido itemPedido3 = new ItemPedido(produto3, 5);
 
         ArrayList<ItemPedido> itensPedidos = new ArrayList<>(Arrays.asList(itemPedido1, itemPedido2, itemPedido3));
-        Pedido pedido = new Pedido(123, "Grupo B", Date.from(Instant.now()), "FURB", itensPedidos, null);
+        Pedido pedido1 = new Pedido(123, "Grupo B", Date.from(Instant.now()), "FURB", itensPedidos, null);
+        Pedido pedido2 = new Pedido(123, "Grupo B", Date.from(Instant.now()), "FURB", new ArrayList<>(), null);
 
         try {
-            pedido.setFormaDeEntrega(formaDeEntregaPac);
-            System.out.println("Valor pedido: " + pedido.getValorPedido());
-            System.out.println("Valor entrega: " + pedido.getValorEntrega());
-            System.out.println("Valor TOTAL: " + pedido.getValorTotal());
+            pedido1.setFormaDeEntrega(Pac.getInstance());
+            System.out.println("Valor pedido: " + pedido1.getValorPedido());
+            System.out.println("Valor entrega: " + pedido1.getValorEntrega());
+            System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
             System.out.println();
 
-            pedido.setFormaDeEntrega(formaDeEntregaSedex);
-            System.out.println("Valor pedido: " + pedido.getValorPedido());
-            System.out.println("Valor entrega: " + pedido.getValorEntrega());
-            System.out.println("Valor TOTAL: " + pedido.getValorTotal());
+            pedido1.setFormaDeEntrega(Sedex.getInstance());
+            System.out.println("Valor pedido: " + pedido1.getValorPedido());
+            System.out.println("Valor entrega: " + pedido1.getValorEntrega());
+            System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
             System.out.println();
 
-            pedido.setFormaDeEntrega(formaDeEntregaPac);
-            pedido.incluirItem(produtoPesado, 1);
-            pedido.getValorEntrega(); // Deve lançar uma exceção TipoEntregaInvalido.
-        } catch (TipoEntregaInvalido e1) {
-            System.out.println(e1.getMessage());
+            pedido1.setFormaDeEntrega(Motoboy.getInstance());
+            System.out.println("Valor pedido: " + pedido1.getValorPedido());
+            System.out.println("Valor entrega: " + pedido1.getValorEntrega());
+            System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
+            System.out.println();
+
+            try {
+                pedido1.setFormaDeEntrega(Pac.getInstance());
+                pedido1.incluirItem(produtoPesado, 1);
+                pedido1.getValorEntrega(); // Deve lançar uma exceção TipoEntregaInvalido.
+            } catch (TipoEntregaInvalido e1) {
+                System.out.println(e1.getMessage());
+            }
+
+            try {
+                pedido1.setFormaDeEntrega(Motoboy.getInstance());
+                pedido1.incluirItem(produtoPesado, 5);
+                pedido1.getValorEntrega(); // Deve lançar uma exceção TipoEntregaInvalido.
+            } catch (TipoEntregaInvalido e1) {
+                System.out.println(e1.getMessage());
+            }
+
+            try {
+                pedido2.setFormaDeEntrega(Motoboy.getInstance());
+                for (int i = 0; i < 35; i++) {
+                    pedido2.incluirItem(new Produto(String.valueOf(i), 0.00, 1), 1);
+                }
+                pedido2.getValorEntrega(); // Deve lançar uma exceção TipoEntregaInvalido.
+            } catch (TipoEntregaInvalido e1) {
+                System.out.println(e1.getMessage());
+            }
+
         } catch (Exception e2) {
-            System.err.println("Deu ruim! Exceção não esperada!");
+            System.err.println("Deu ruim! Exceção não esperada!\n" + e2.getMessage());
         }
     }
 }

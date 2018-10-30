@@ -1,6 +1,6 @@
 package p2.prob3.b;
 
-class TipoEntregaInvalido extends Exception {
+public class TipoEntregaInvalido extends Exception {
 
     public TipoEntregaInvalido() {
     }

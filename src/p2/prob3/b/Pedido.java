@@ -10,9 +10,9 @@ public class Pedido {
     private Date data;
     private String endereco;
     private ArrayList<ItemPedido> itens;
-    private EntregaStrategy formaDeEntrega;
+    private FormaDeEntrega formaDeEntrega;
 
-    public Pedido(int numero, String nomeCliente, Date data, String endereco, ArrayList<ItemPedido> itens, EntregaStrategy formaDeEntrega) {
+    public Pedido(int numero, String nomeCliente, Date data, String endereco, ArrayList<ItemPedido> itens, FormaDeEntrega formaDeEntrega) {
         this.numero = numero;
         this.nomeCliente = nomeCliente;
         this.data = data;
@@ -57,11 +57,19 @@ public class Pedido {
         this.itens.add(new ItemPedido(p, qtd));
     }
 
-    public EntregaStrategy getFormaDeEntrega() {
+    public ArrayList<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(ArrayList<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
+    public FormaDeEntrega getFormaDeEntrega() {
         return formaDeEntrega;
     }
 
-    public void setFormaDeEntrega(EntregaStrategy formaDeEntrega) {
+    public void setFormaDeEntrega(FormaDeEntrega formaDeEntrega) {
         this.formaDeEntrega = formaDeEntrega;
     }
 
@@ -73,12 +81,12 @@ public class Pedido {
         return valorTotal;
     }
 
-    private int getPesoPedido() {
+    public int getPesoPedido() {
         int pesoTotal = 0;
         for (ItemPedido ip : this.itens) {
-            Produto produto = ip.getProduto();
+            final Produto produto = ip.getProduto();
             if (produto != null) {
-                pesoTotal += produto.getPeso();
+                pesoTotal += (produto.getPeso() * ip.getQuantidade());
             }
         }
 
@@ -87,7 +95,7 @@ public class Pedido {
 
     public double getValorEntrega() throws Exception {
         if (this.formaDeEntrega != null) {
-            return this.formaDeEntrega.getValorDeEntrega(getPesoPedido());
+            return this.formaDeEntrega.getValorDeEntrega(this);
         }
 
         throw new Exception("Tipo de entrega não definido");
