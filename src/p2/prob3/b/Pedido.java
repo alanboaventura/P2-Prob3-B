@@ -1,4 +1,3 @@
-package p2.prob3.b;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,15 +9,9 @@ public class Pedido {
     private Date data;
     private String endereco;
     private ArrayList<ItemPedido> itens;
-    private EntregaStrategy formaDeEntrega;
+    private TipoEntrega entrega;
 
-    public Pedido(int numero, String nomeCliente, Date data, String endereco, ArrayList<ItemPedido> itens, EntregaStrategy formaDeEntrega) {
-        this.numero = numero;
-        this.nomeCliente = nomeCliente;
-        this.data = data;
-        this.endereco = endereco;
-        this.itens = itens;
-        this.formaDeEntrega = formaDeEntrega;
+    public Pedido() {
     }
 
     public int getNumero() {
@@ -57,14 +50,6 @@ public class Pedido {
         this.itens.add(new ItemPedido(p, qtd));
     }
 
-    public EntregaStrategy getFormaDeEntrega() {
-        return formaDeEntrega;
-    }
-
-    public void setFormaDeEntrega(EntregaStrategy formaDeEntrega) {
-        this.formaDeEntrega = formaDeEntrega;
-    }
-
     public double getValorPedido() {
         double valorTotal = 0;
         for (ItemPedido ip : this.itens) {
@@ -73,31 +58,53 @@ public class Pedido {
         return valorTotal;
     }
 
-    private int getPesoPedido() {
-        int pesoTotal = 0;
-        for (ItemPedido ip : this.itens) {
-            Produto produto = ip.getProduto();
-            if (produto != null) {
-                pesoTotal += produto.getPeso();
-            }
+////////////////////////////////////////////////////////////////////////////////
+    public TipoEntrega getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(TipoEntrega entrega) {
+        this.entrega = entrega;
+    }
+
+    public double getValorTotal() {
+        double peso = getPesoTotal();
+        double valorTotal = this.getValorTotal() + this.getValorPedido();
+        return valorTotal;
+    }
+
+    /**
+     * 
+     * retorna o tipo de entrega escolhido
+     * @throws Exception 
+     */
+    public double getValorEntrega(){
+        if(entrega==null){
+            new IllegalArgumentException("Nenhum tipo de entrega selecionado");
         }
-
-        return pesoTotal;
+        return entrega.calculaValorEntrega(this);
     }
 
-    public double getValorEntrega() throws Exception {
-        if (this.formaDeEntrega != null) {
-            return this.formaDeEntrega.getValorDeEntrega(getPesoPedido());
+    /**
+    * Retorna o peso total em gramas
+    */
+    public double getPesoTotal() {
+        double peso = 0;
+        for (ItemPedido iten : itens) {
+            peso = peso + (iten.getProduto().getPeso()) * iten.getQuantidade();
         }
-
-        throw new Exception("Tipo de entrega não definido");
+        return peso;
     }
 
-    public double getValorTotal() throws Exception {
-        final double valorPedido = getValorPedido();
-        final double valorEntrega = getValorEntrega();
-
-        return valorPedido + valorEntrega;
+    /**
+     * 
+     * retorna a quantidade de itens que o pedido contem 
+     */
+    public int getQtdItens(){
+        int qtdItens = 0;
+        for (ItemPedido iten : itens) {
+            qtdItens = qtdItens + iten.getProduto().getPeso() * iten.getQuantidade();
+        }
+        return qtdItens;
     }
-
 }

@@ -1,5 +1,3 @@
-package p2.prob3.b;
-
 class ItemPedido {
 
     private Produto produto;

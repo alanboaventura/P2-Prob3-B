@@ -1,18 +1,31 @@
-package p2.prob3.b;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-public class Pac implements EntregaStrategy {
+/**
+ *
+ * @author Eduardo
+ */
+public class PAC implements TipoEntrega {
 
     @Override
-    public double getValorDeEntrega(int weight) throws TipoEntregaInvalido {
-        if (weight > 5000)
-            throw new TipoEntregaInvalido("O tipo de entrega PAC não disponível para entregas que remetam a pedidos com peso maior que 5KG.");
-        if (weight > 3000)
-            return 30;
-        if (weight > 2000)
-            return 20;
-        if (weight > 1000)
-            return 15;
-
-        return 10;
+    public double calculaValorEntrega(Pedido pedido) {
+        double peso = pedido.getPesoTotal();
+        peso = peso * 1000;     //transforma em Kg
+        if (peso <= 1) {
+            return 10.00;
+        } else if (peso > 1 && peso <= 2) {
+            return 15.00;
+        } else if (peso > 2 && peso <= 3) {
+            return 20.00;
+        } else if (peso > 3 && peso <= 5) {
+            return 30.00;
+            
+        } else if (peso > 5) {
+            new IllegalArgumentException("Quantidade de peso não aceita");
+        }
+        return 0;
     }
 }

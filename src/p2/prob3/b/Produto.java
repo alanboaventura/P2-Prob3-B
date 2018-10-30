@@ -1,5 +1,3 @@
-package p2.prob3.b;
-
 public class Produto {
 
     private String descricao;

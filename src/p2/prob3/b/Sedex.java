@@ -1,18 +1,31 @@
-package p2.prob3.b;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-public class Sedex implements EntregaStrategy {
-
+/**
+ *
+ * @author Eduardo
+ */
+public class SEDEX implements TipoEntrega{
+    
     @Override
-    public double getValorDeEntrega(int weight) {
-        if (weight > 2000)
-            return 45 + Math.ceil((weight - 2000) / 100) * 1.5;
-        if (weight > 1200)
-            return 45;
-        if (weight > 750)
-            return 30;
-        if (weight > 500)
-            return 20;
-
-        return 12.5;
+    public double calculaValorEntrega(Pedido pedido) {
+        double peso = pedido.getPesoTotal();
+        if (peso <= 500) {
+            return 12.50;
+        } else if (peso >= 501 && peso <= 750) {
+            return 20.00;
+        } else if (peso >= 751 && peso <= 1200) {
+            return 30.00;
+        } else if (peso > 1201 && peso <= 2000) {
+            return 45.00;
+        } else if (peso > 2000) {
+            peso = peso - 2000;
+            int x = (int) (peso / 100);
+            return (45.00 + (x * 1.50));
+        }
+        return 0;
     }
 }
