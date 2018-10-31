@@ -1,0 +1,28 @@
+Problema 3 - Grupo B
+
+Alan Boaventura
+Eduardo Cesar Pasquali
+Maik Henrique Carminati
+Rafael Froeschlin Filho
+
+Mapeamento:
+
+# Strategy
+
+## Context:
+  - Pedido.java
+  
+## Strategy:
+  - FormaDeEntrega.java
+
+## ConcreteStrategy:
+  - Pac.java
+  - Sedex.java
+  - Motoboy.java
+  
+# Singleton
+  
+## Singletons:
+  - Pac.java
+  - Sedex.java
+  - Motoboy.java
