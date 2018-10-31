@@ -19,14 +19,15 @@ public class Pac implements FormaDeEntrega {
     public double getValorDeEntrega(Pedido pedido) throws TipoEntregaInvalido {
         final int pesoPedido = pedido.getPesoPedido();
 
-        if (pesoPedido > 5000)
+        if (pesoPedido > 5000) {
             throw new TipoEntregaInvalido("O tipo de entrega PAC não disponível para entregas que remetam a pedidos com peso maior que 5KG.");
-        if (pesoPedido > 3000)
+        } else if (pesoPedido > 3000) {
             return 30;
-        if (pesoPedido > 2000)
+        } else if (pesoPedido > 2000) {
             return 20;
-        if (pesoPedido > 1000)
+        } else if (pesoPedido > 1000) {
             return 15;
+        }
 
         return 10;
     }

@@ -19,7 +19,6 @@ public class Motoboy implements FormaDeEntrega {
     }
 
     @Override
-
     public double getValorDeEntrega(Pedido pedido) throws TipoEntregaInvalido {
         final int pesoPedido = pedido.getPesoPedido();
         final List<Produto> produtosPedido = new ArrayList<>();

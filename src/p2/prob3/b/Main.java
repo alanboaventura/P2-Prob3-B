@@ -22,23 +22,37 @@ public class Main {
         Pedido pedido2 = new Pedido(123, "Grupo B", Date.from(Instant.now()), "FURB", new ArrayList<>(), null);
 
         try {
+            System.out.println("Cálculos normais:\n");
+            System.out.println("Valor pedido: " + pedido1.getValorPedido());
+            System.out.println();
+
+            System.out.println("PAC: ");
             pedido1.setFormaDeEntrega(Pac.getInstance());
-            System.out.println("Valor pedido: " + pedido1.getValorPedido());
             System.out.println("Valor entrega: " + pedido1.getValorEntrega());
             System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
             System.out.println();
 
+            System.out.println("Sedex: ");
             pedido1.setFormaDeEntrega(Sedex.getInstance());
-            System.out.println("Valor pedido: " + pedido1.getValorPedido());
             System.out.println("Valor entrega: " + pedido1.getValorEntrega());
             System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
             System.out.println();
 
+            System.out.println("Motoboy: ");
             pedido1.setFormaDeEntrega(Motoboy.getInstance());
-            System.out.println("Valor pedido: " + pedido1.getValorPedido());
             System.out.println("Valor entrega: " + pedido1.getValorEntrega());
             System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
             System.out.println();
+
+            System.out.println("Retirada no local: ");
+            pedido1.setFormaDeEntrega(RetiradaNoLocal.getInstance());
+            System.out.println("Valor entrega: " + pedido1.getValorEntrega());
+            System.out.println("Valor TOTAL: " + pedido1.getValorTotal());
+            System.out.println();
+
+            System.out.println("------------------------------------------------------------------------------------------------------------\n");
+
+            System.out.println("Cálculos com problemas (lançamento da exceção TipoEntregaInvalido):\n");
 
             try {
                 pedido1.setFormaDeEntrega(Pac.getInstance());
